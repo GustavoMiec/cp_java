@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.fiap.bens.Aluno;
+import br.com.fiap.beans.Aluno;
 import br.com.fiap.conexao.ConexaoFactory;
 
 public class AlunoDao {
@@ -33,13 +33,32 @@ public class AlunoDao {
 	}
 
 	public String deletar(Aluno aluno) throws SQLException {
-		PreparedStatement stmt = minhaConexao.prepareStatement("Delete From aluno where RM_Aluno = ?");
+		PreparedStatement stmt = minhaConexao.prepareStatement("Delete From ALUNO where RM_Aluno = ?");
 		stmt.setInt(1, aluno.getRm());
 		stmt.execute();
 		stmt.close();
 
 		return "Deletado com Sucesso!";
 	}
+	// update
+	
+	public String atulizar(Aluno aluno) throws SQLException {
+		PreparedStatement stmt = minhaConexao.prepareStatement("update ALUNO set NOME_ALUNO = ?,"
+				+ " TURMA_ALUNO = ?, NOTA_ALUNO = ? where RM_ALUNO = ?");
+		stmt.setString(1, aluno.getNome());
+		stmt.setString(2, aluno.getTurma());
+		stmt.setDouble(3, aluno.getNota());
+		stmt.setInt(4, aluno.getRm());
+		stmt.executeUpdate();
+		stmt.close();
+		
+		return "Atulizado com Sucesso";
+		
+		
+		
+	}
+	
+	
 
 	public List<Aluno> selecionar() throws SQLException{
 		List<Aluno> listaAlunos = new ArrayList<Aluno>();
@@ -56,7 +75,6 @@ public class AlunoDao {
 		
 		return listaAlunos;
 	}
-	
 	
 	
 }
